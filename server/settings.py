@@ -65,10 +65,6 @@ class CelActionSettings(BaseSettingsModel):
 
 DEFAULT_VALUES = {
     "imageio": {
-        "ocio_config": {
-            "enabled": False,
-            "filepath": []
-        },
         "file_rules": {
             "enabled": False,
             "rules": []
