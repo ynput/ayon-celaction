@@ -1,6 +1,6 @@
 name = "celaction"
 title = "CelAction"
-version = "0.2.1"
+version = "0.2.1+dev"
 app_host_name = "celaction"
 client_dir = "ayon_celaction"
 
