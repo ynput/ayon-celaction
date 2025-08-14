@@ -3,6 +3,7 @@ title = "CelAction"
 version = "0.2.1+dev"
 app_host_name = "celaction"
 client_dir = "ayon_celaction"
+project_can_override_addon_version = True
 
 ayon_server_version = ">=1.1.2"
 ayon_required_addons = {
