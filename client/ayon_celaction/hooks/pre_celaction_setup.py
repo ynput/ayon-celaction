@@ -2,9 +2,18 @@ import os
 import shutil
 import winreg
 import subprocess
+
 from ayon_core.lib import get_ayon_launcher_args
 from ayon_applications import PreLaunchHook, LaunchTypes
 from ayon_celaction import CELACTION_ROOT_DIR
+
+try:
+    from ayon_core.pipeline.workfile import (
+        save_workfile_info,
+        find_workfile_rootless_path,
+    )
+except ImportError:
+    save_workfile_info = find_workfile_rootless_path = None
 
 
 class CelactionPrelaunchHook(PreLaunchHook):
@@ -143,6 +152,7 @@ class CelactionPrelaunchHook(PreLaunchHook):
                 os.path.normpath(template_path),
                 os.path.normpath(workfile_path)
             )
+            self._create_workfile_info(workfile_path)
 
         self.log.info(f"Workfile to open: \"{workfile_path}\"")
 
@@ -150,3 +160,33 @@ class CelactionPrelaunchHook(PreLaunchHook):
 
     def get_workfile_settings(self):
         return self.data["project_settings"]["celaction"]["workfile"]
+
+    def _create_workfile_info(self, workfile_path: str) -> None:
+        # Backwards compatibility before ayon-core 1.5.0
+        if save_workfile_info is None or find_workfile_rootless_path is None:
+            return
+
+        # NOTE This won't store version or comment
+        host_name = self.host_name
+        anatomy = self.data["anatomy"]
+        project_name = self.data["project_name"]
+        project_settings = self.data["project_settings"]
+        project_entity = self.data["project_entity"]
+        folder_entity = self.data["folder_entity"]
+        task_entity = self.data["task_entity"]
+        rootless_path = find_workfile_rootless_path(
+            workfile_path,
+            project_name,
+            folder_entity,
+            task_entity,
+            host_name,
+            project_entity=project_entity,
+            project_settings=project_settings,
+            anatomy=anatomy,
+        )
+        save_workfile_info(
+            project_name,
+            task_entity["id"],
+            rootless_path,
+            host_name,
+        )
