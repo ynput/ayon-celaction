@@ -41,6 +41,7 @@ class CollectCelactionInstances(pyblish.api.ContextPlugin):
 
         # workfile instance
         product_type = "workfile"
+        product_base_type = "workfile"
         product_name = product_type + task.capitalize()
         # Create instance
         instance = context.create_instance(product_name)
@@ -50,8 +51,9 @@ class CollectCelactionInstances(pyblish.api.ContextPlugin):
             "label": scene_file,
             "productName": product_name,
             "productType": product_type,
-            "family": product_type,
-            "families": [product_type],
+            "productBaseType": product_base_type,
+            "family": product_base_type,
+            "families": [product_base_type],
             "representations": []
         })
 
@@ -73,6 +75,7 @@ class CollectCelactionInstances(pyblish.api.ContextPlugin):
         # render instance
         product_name = f"render{task}Main"
         product_type = "render.farm"
+        product_base_type = "render.farm"
         instance = context.create_instance(name=product_name)
         # getting instance state
         instance.data["publish"] = True
@@ -81,8 +84,9 @@ class CollectCelactionInstances(pyblish.api.ContextPlugin):
         instance.data.update({
             "label": "{} - farm".format(product_name),
             "productType": product_type,
-            "family": product_type,
-            "families": [product_type],
+            "productBaseType": product_base_type,
+            "family": product_base_type,
+            "families": [product_base_type],
             "productName": product_name
         })
 
