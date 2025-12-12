@@ -1,6 +1,6 @@
 name = "celaction"
 title = "CelAction"
-version = "0.2.2+dev"
+version = "0.2.3"
 app_host_name = "celaction"
 client_dir = "ayon_celaction"
 project_can_override_addon_version = True
