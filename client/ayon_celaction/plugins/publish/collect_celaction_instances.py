@@ -1,6 +1,8 @@
 import os
 import pyblish.api
 
+from ayon_core.pipeline.create import get_product_name
+
 
 class CollectCelactionInstances(pyblish.api.ContextPlugin):
     """ Adds the celaction render instances """
@@ -9,7 +11,11 @@ class CollectCelactionInstances(pyblish.api.ContextPlugin):
     order = pyblish.api.CollectorOrder + 0.1
 
     def process(self, context):
-        task = context.data["task"]
+        project_name = context.data["projectName"]
+        project_entity = context.data["projectEntity"]
+        folder_entity = context.data["folderEntity"]
+        task_entity = context.data["taskEntity"]
+
         current_file = context.data["currentFile"]
         staging_dir = os.path.dirname(current_file)
         scene_file = os.path.basename(current_file)
@@ -41,7 +47,17 @@ class CollectCelactionInstances(pyblish.api.ContextPlugin):
 
         # workfile instance
         product_base_type = "workfile"
-        product_name = product_base_type + task.capitalize()
+        product_name = get_product_name(
+            project_name,
+            project_entity=project_entity,
+            folder_entity=folder_entity,
+            task_entity=task_entity,
+            variant="",
+            host_name=context.data["hostName"],
+            product_base_type=product_base_type,
+            product_type=product_base_type,
+            project_settings=context.data["projectSettings"],
+        )
         # Create instance
         instance = context.create_instance(product_name)
 
@@ -72,8 +88,18 @@ class CollectCelactionInstances(pyblish.api.ContextPlugin):
         self.log.info('Publishing Celaction workfile')
 
         # render instance
-        product_name = f"render{task}Main"
         product_base_type = "render"
+        product_name = get_product_name(
+            project_name,
+            project_entity=project_entity,
+            folder_entity=folder_entity,
+            task_entity=task_entity,
+            variant="",
+            host_name=context.data["hostName"],
+            product_base_type=product_base_type,
+            product_type=product_base_type,
+            project_settings=context.data["projectSettings"],
+        )
         instance = context.create_instance(name=product_name)
 
         # add folderEntity data into instance
