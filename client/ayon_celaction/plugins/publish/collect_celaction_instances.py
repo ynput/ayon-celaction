@@ -40,9 +40,8 @@ class CollectCelactionInstances(pyblish.api.ContextPlugin):
             shared_instance_data.update(celaction_kwargs)
 
         # workfile instance
-        product_type = "workfile"
         product_base_type = "workfile"
-        product_name = product_type + task.capitalize()
+        product_name = product_base_type + task.capitalize()
         # Create instance
         instance = context.create_instance(product_name)
 
@@ -50,7 +49,7 @@ class CollectCelactionInstances(pyblish.api.ContextPlugin):
         instance.data.update({
             "label": scene_file,
             "productName": product_name,
-            "productType": product_type,
+            "productType": product_base_type,
             "productBaseType": product_base_type,
             "family": product_base_type,
             "families": [product_base_type],
@@ -74,20 +73,19 @@ class CollectCelactionInstances(pyblish.api.ContextPlugin):
 
         # render instance
         product_name = f"render{task}Main"
-        product_type = "render.farm"
-        product_base_type = "render.farm"
+        product_base_type = "render"
         instance = context.create_instance(name=product_name)
-        # getting instance state
-        instance.data["publish"] = True
 
         # add folderEntity data into instance
         instance.data.update({
-            "label": "{} - farm".format(product_name),
-            "productType": product_type,
+            "publish": True,
+            "label": f"{product_name} - farm",
+            "productType": product_base_type,
             "productBaseType": product_base_type,
             "family": product_base_type,
-            "families": [product_base_type],
-            "productName": product_name
+            "families": [product_base_type, "render.farm"],
+            "productName": product_name,
+            "representations": [],
         })
 
         # adding basic script data
