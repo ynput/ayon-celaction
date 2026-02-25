@@ -79,6 +79,7 @@ class CollectCelactionInstances(pyblish.api.ContextPlugin):
         # add folderEntity data into instance
         instance.data.update({
             "publish": True,
+            "farm": True,
             "label": f"{product_name} - farm",
             "productType": product_base_type,
             "productBaseType": product_base_type,
