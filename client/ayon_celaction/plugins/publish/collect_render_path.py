@@ -21,7 +21,6 @@ class CollectRenderPath(pyblish.api.InstancePlugin):
         anatomy = instance.context.data["anatomy"]
         anatomy_data = copy.deepcopy(instance.data["anatomyData"])
         padding = anatomy.templates_obj.frame_padding
-        product_type = "render"
         product_base_type = "render"
         anatomy_data.update({
             "frame": f"%0{padding}d",
@@ -29,7 +28,8 @@ class CollectRenderPath(pyblish.api.InstancePlugin):
             "representation": self.output_extension,
             "ext": self.output_extension
         })
-        anatomy_data["product"]["type"] = product_type
+        anatomy_data["product"]["type"] = product_base_type
+        anatomy_data["product"]["basetype"] = product_base_type
 
         # get anatomy rendering keys
         r_anatomy_key = self.anatomy_template_key_render_files
