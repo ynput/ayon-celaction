@@ -28,7 +28,7 @@ class CelactionPrelaunchHook(PreLaunchHook):
         height = folder_attributes["resolutionHeight"]
 
         # Add workfile path to launch arguments
-        workfile_path = self.workfile_path()
+        workfile_path = self.get_workfile_path()
         if workfile_path:
             self.launch_context.launch_args.append(workfile_path)
 
@@ -122,7 +122,11 @@ class CelactionPrelaunchHook(PreLaunchHook):
         winreg.SetValueEx(hKey, "Result", 0, winreg.REG_DWORD, 1)
         winreg.SetValueEx(hKey, "Valid", 0, winreg.REG_DWORD, 1)
 
-    def workfile_path(self):
+    def get_workfile_path(self):
+        workfile_path = self.data.get("workfile_path")
+        if workfile_path:
+            return workfile_path
+
         workfile_path = self.data["last_workfile_path"]
 
         # copy workfile from template if doesn't exist any on path
