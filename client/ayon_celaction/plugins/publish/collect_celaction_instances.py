@@ -83,7 +83,6 @@ class CollectCelactionInstances(pyblish.api.ContextPlugin):
         # adding basic script data
         instance.data.update(shared_instance_data)
 
-
         self.log.info('Publishing Celaction workfile')
 
         # render instance
