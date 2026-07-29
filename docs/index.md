@@ -1,3 +1,3 @@
-# AYON Celaction Addon API Reference
+# AYON CelAction Addon API Reference
 
 --8<-- "README.md:2"
