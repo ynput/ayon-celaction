@@ -2,7 +2,6 @@ import os
 import sys
 
 import pyblish.api
-import pyblish.util
 
 from ayon_celaction import CELACTION_ROOT_DIR
 from ayon_core.lib import Logger
